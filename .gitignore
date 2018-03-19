@@ -1,0 +1,21 @@
+.idea/
+target/
+*.iml
+application-local.properties
+LOG_PATH_IS_UNDEFINED/
+
+
+# Log file
+*.log
+
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+### Maven template
+pom.xml.tag
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+pom.xml.releaseBackup
+
+

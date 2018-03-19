@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "============================================="
+echo "       running maven install"
+echo "============================================="
+mvn install
+status=$?
+
+[ $status = 1 ] && echo "COMMIT CONTENT REJECTED" || echo "COMMIT CONTENT ACCEPTED"
+
+exit $status
