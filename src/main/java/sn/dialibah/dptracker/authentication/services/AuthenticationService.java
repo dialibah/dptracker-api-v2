@@ -1,5 +1,6 @@
 package sn.dialibah.dptracker.authentication.services;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
@@ -17,8 +18,10 @@ import sn.dialibah.dptracker.common.configurations.security.services.ICryptoServ
 import sn.dialibah.dptracker.common.exceptions.InternalServerException;
 import sn.dialibah.dptracker.common.models.Profile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -76,6 +79,14 @@ public class AuthenticationService implements IAuthenticationService {
 		return saved == null ? null : profile;
 	}
 
+	@PostConstruct
+	public void signupRoot() {
+		if(profileRepository.findByLogin("root@dialibah.com") != null)
+			return;
+		SignupDataBean sbd = SignupDataBean.builder().login("root@dialibah.com").password("Passer33").confirmPassword("Passer33").build();
+		signup(sbd);
+	}
+
 	@Override
 	public Profile login(LoginDataBean loginDataBean) {
 		log.info("{} looking for login {}", LOG_HEADER, loginDataBean.getLogin());
@@ -97,6 +108,11 @@ public class AuthenticationService implements IAuthenticationService {
 	public Optional<Profile> getProfile(String profileId) {
 		ProfileEntity profileEntity = profileRepository.findByLogin(profileId);
 		return profileEntity == null ? Optional.empty() : Optional.of(mapper.map(profileEntity, Profile.class));
+	}
+
+	@Override
+	public List<ProfileEntity> getAllUsers() {
+		return Lists.newArrayList(profileRepository.findAll());
 	}
 
 	/**

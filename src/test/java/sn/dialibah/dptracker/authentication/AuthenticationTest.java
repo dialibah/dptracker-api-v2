@@ -17,7 +17,7 @@ import sn.dialibah.dptracker.authentication.exceptions.UnableToLoginException;
 import sn.dialibah.dptracker.authentication.models.LoginDataBean;
 import sn.dialibah.dptracker.authentication.models.SignupDataBean;
 import sn.dialibah.dptracker.authentication.repositories.ProfileRepository;
-import sn.dialibah.dptracker.authentication.services.AuthenticationService;
+import sn.dialibah.dptracker.authentication.services.IAuthenticationService;
 import sn.dialibah.dptracker.common.exceptions.InternalServerException;
 import sn.dialibah.dptracker.common.models.Profile;
 
@@ -32,7 +32,7 @@ import sn.dialibah.dptracker.common.models.Profile;
 public class AuthenticationTest {
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private IAuthenticationService authenticationService;
 	@Autowired
 	private ProfileRepository profileRepository;
 
@@ -41,12 +41,7 @@ public class AuthenticationTest {
 
 	@Test
 	public void testSignup() {
-		SignupDataBean signupDataBean = SignupDataBean.builder()
-						.login("kiss")
-						.password("Passer33")
-						.confirmPassword("Passer33")
-						.firstName("Ousmane Sow")
-						.build();
+		SignupDataBean signupDataBean = SignupDataBean.builder().login("kiss").password("Passer33").confirmPassword("Passer33").firstName("Ousmane Sow").build();
 		Profile retrievedProfile = this.authenticationService.signup(signupDataBean);
 		Assert.assertNotNull(retrievedProfile);
 		Assert.assertEquals(retrievedProfile.getLogin(), "kiss");
@@ -55,12 +50,7 @@ public class AuthenticationTest {
 
 	@Test
 	public void testDuplicatedUser() throws InternalServerException {
-		SignupDataBean signupDataBean = SignupDataBean.builder()
-						.login("kiss")
-						.firstName("Ousmane Sow")
-						.password("Passer33")
-						.confirmPassword("Passer33")
-						.build();
+		SignupDataBean signupDataBean = SignupDataBean.builder().login("kiss").firstName("Ousmane Sow").password("Passer33").confirmPassword("Passer33").build();
 		Profile retrievedProfile = this.authenticationService.signup(signupDataBean);
 		Assert.assertNotNull(retrievedProfile);
 		thrown.expect(InternalServerException.class);
@@ -87,12 +77,7 @@ public class AuthenticationTest {
 
 	@Test
 	public void testLoginMongo() {
-		SignupDataBean signupDataBean = SignupDataBean.builder()
-						.login("kissMongoUser")
-						.password("mongo")
-						.confirmPassword("mongo")
-						.firstName("First Name")
-						.build();
+		SignupDataBean signupDataBean = SignupDataBean.builder().login("kissMongoUser").password("mongo").confirmPassword("mongo").firstName("First Name").build();
 		Profile savedProfile = this.authenticationService.signup(signupDataBean);
 		Profile loggedInProfile = null;
 		UnableToLoginException exceptedException = null;

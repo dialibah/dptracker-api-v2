@@ -1,10 +1,12 @@
 package sn.dialibah.dptracker.authentication.services;
 
+import sn.dialibah.dptracker.authentication.entities.ProfileEntity;
 import sn.dialibah.dptracker.authentication.models.LoginDataBean;
 import sn.dialibah.dptracker.authentication.models.SignupDataBean;
 import sn.dialibah.dptracker.common.models.Profile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,4 +48,6 @@ public interface IAuthenticationService {
 	 * @return {@link Profile} if found
 	 */
 	Optional<Profile> getProfile(String profileId);
+
+	List<ProfileEntity> getAllUsers();
 }

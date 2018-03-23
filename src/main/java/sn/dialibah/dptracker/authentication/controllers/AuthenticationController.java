@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import sn.dialibah.dptracker.authentication.entities.ProfileEntity;
 import sn.dialibah.dptracker.authentication.models.LoginDataBean;
 import sn.dialibah.dptracker.authentication.models.SignupDataBean;
 import sn.dialibah.dptracker.authentication.services.AuthenticationService;
@@ -16,6 +17,7 @@ import sn.dialibah.dptracker.common.models.Profile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * by osow on 15/11/17.
@@ -48,6 +50,12 @@ public class AuthenticationController {
 		Profile profile = this.authenticationService.login(loginDataBean);
 		this.authenticationService.setJsonWebTokenUsingProfile(profile, response);
 		return new ResponseEntity<>(profile, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "users", method = RequestMethod.GET)
+	public ResponseEntity<List<ProfileEntity>> getAllUsers() {
+		log.info("{} get all users {}", LOG_HEADER);
+		return new ResponseEntity<>(this.authenticationService.getAllUsers(), HttpStatus.OK);
 	}
 
 }
